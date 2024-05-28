@@ -1,0 +1,11 @@
+Install-WindowsFeacture containers
+Restart-Computer -Force
+Invoke-WebRequest "https://download.docker.com/components/engine/windows-server/cs-4.28/docker.zip" -OutFile "$env:TEMP\docker.zip" -UseBasicParsing
+Expand-Archive -Path "$env:TEMP\docker.zip" -DestinationPath $env:ProgramFiles
+$env:path += ";c:\program files\docker"
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";c:\Program Files\Docker",[EnvironmentVariableTarget]::Machine)
+dockerd --register-service
+Start-Service docker 
+docker version
+docker info
+docker run hello-world
